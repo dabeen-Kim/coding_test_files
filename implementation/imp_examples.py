@@ -52,3 +52,54 @@ for move in moves:
         count += 1
 
 print(count)
+
+--------------------------------------------------------------
+
+#'게임 개발' 문제
+n, m = map(int, input().split())
+Map = [[0]*m for _ in range(n)]
+point = [0, 0]
+point[0], point[1], d = map(int, input().split())
+for i in range(n):
+    Map[i] = list(map(int, input().split()))
+
+def change(point, d):
+    x = point[0]
+    y = point[1]
+
+    if d == 0:
+        x -= 1
+    elif d == 1:
+        y += 1
+    elif d == 2:
+        x += 1
+    else:
+        y -= 1
+
+    return [x,y]
+
+stop = False
+Map[point[0]][point[1]] = 2
+count = 1
+while not stop:
+    turn_time = 0
+
+    while True:
+        if d == 0: d = 3
+        else: d -= 1
+        turn_time += 1
+
+        dx, dy = change(point, d)
+        if Map[dx][dy] == 0:
+            point = change(point, d)
+            Map[dx][dy] = 2
+            count += 1
+            break
+        else:
+            if turn_time == 4:
+                point = change(point, (d+2)%4)
+                if Map[point[0]][point[1]] == 1:
+                    stop = True
+                break
+        
+print(count)
